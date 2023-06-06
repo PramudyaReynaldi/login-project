@@ -8,12 +8,13 @@ const jwt = require('jsonwebtoken');
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost:27017/DB_LOGIN");
+mongoose.connect("mongodb://localhost:27017/react-login-tut");
 
 app.post("/api/register", async (req, res) => {
   console.log(req.body);
   try {
     await User.create({
+      name: req.body.name,
       email: req.body.email,
       password: req.body.password,
     });
@@ -29,10 +30,10 @@ app.post("/api/login", async (req, res) => {
     password: req.body.password,
   });
 
-  if (user) {
+  if(user) {
     const token = jwt.sign({
+      name: req.body.name,
       email: req.body.email,
-      password: req.body.password
     }, 'secret123')
 
     return res.json({ status: 'success', user: token });
