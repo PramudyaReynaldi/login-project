@@ -20,8 +20,16 @@ export default function Login() {
       }),
     });
 
-    
+
     const data = await response.json();
+
+    if(data.user) {
+      localStorage.setItem('token', data.user)
+      alert('Login successful')
+      window.location.href = '/quote'
+    } else {
+      alert('Login failed')
+    }
 
     console.log(data);
   };
@@ -29,7 +37,7 @@ export default function Login() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
       <div className="hidden sm:block">
-        <img className="w-full h-full object-cover" src={loginImg} alt="" />
+        <img className="w-full h-full object-cover" src={loginImg} />
       </div>
 
       <div className="bg-gray-800 flex flex-col justify-center">
@@ -62,7 +70,6 @@ export default function Login() {
             <p className="flex items-center">
               <input className="mr-2" type="checkbox" /> Remember Me
             </p>
-            <p>Forgot Password</p>
           </div>
           <button
             className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/50 hover:shadow-teal-500/40 text-white font-semibold rounded-lg"
