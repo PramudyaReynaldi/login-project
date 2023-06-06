@@ -3,6 +3,7 @@ import loginImg from "../assets/city.jpg";
 import { Link } from "react-router-dom";
 
 export default function Register() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,12 +16,20 @@ export default function Register() {
         "content-type": "application/json",
       },
       body: JSON.stringify({
+        name,
         email,
         password,
       }),
     });
 
     const data = await response.json();
+
+    if (data.status === 'Error') {
+      alert('Register failed')
+    } else {
+      alert('Register successfully! back to login page')
+      window.location.href = '/'
+    }
 
     console.log(data);
   };
@@ -40,17 +49,27 @@ export default function Register() {
               REGISTER
             </h2>
             <div className="flex flex-col text-gray-400 py-2">
+              <label>Name</label>
+              <input
+                className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
+                type="text"
+                onClick={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col text-gray-400 py-2">
               <label>Email</label>
               <input
                 className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
-                type="text" onClick={(e) => setEmail(e.target.value)}
+                type="text"
+                onClick={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="flex flex-col text-gray-400 py-2">
               <label>Password</label>
               <input
                 className="p-2 rounded-lg bg-gray-700 mt-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
-                type="password" onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="flex justify-between text-gray-400 py-2">
